@@ -4,18 +4,16 @@ Feature: The Internet Guinea Pig Website
   Scenario Outline: As a user,  I can navigate to all pages
     Given I am at the index page
     When I click the <page> link
-    Then I should be driected to the selected page
+    Then I should be directed to the selected page
 
     Examples:
       | page                          |
       | A/B Testing                   |
       | Add/Remove Elements           |
-      | Basic Auth                    |
       | Broken Images                 |
       | Challenging DOM               |
       | Checkboxes                    |
       | Context Menu                  |
-      | Digest Authentication         |
       | Disappearing Elements         |
       | Drag and Drop                 |
       | Dropdown                      |
@@ -44,7 +42,6 @@ Feature: The Internet Guinea Pig Website
       | Nested Frames                 |
       | Notification Messages         |
       | Redirect Link                 |
-      | Secure File Download          |
       | Shadow DOM                    |
       | Shifting Content              |
       | Slow Resources                |
@@ -52,3 +49,14 @@ Feature: The Internet Guinea Pig Website
       | Status Codes                  |
       | Typos                         |
       | WYSIWYG Editor                |
+
+  @INDEX, @BASIC_AUTH
+  Scenario Outline: User can access pages requiring authentication
+    Given I authenticate on "<page>" with username "admin" and password "admin"
+    Then I should see the page header
+
+    Examples:
+      | page                  |
+      | Basic Auth            |
+      | Digest Authentication |
+      | Secure File Download  |

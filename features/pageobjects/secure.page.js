@@ -1,15 +1,19 @@
-import { $ } from '@wdio/globals'
-import Page from './page.js';
+import { $ } from "@wdio/globals";
+import Page from "./page.js";
 
-/**
- * sub page containing specific selectors and methods for a specific page
- */
 class SecurePage extends Page {
+    get flashAlert() {
+        return $("#flash");
+    }
+
     /**
-     * define selectors using getter methods
+     * wait for the flash message to be present
      */
-    get flashAlert () {
-        return $('#flash');
+    async waitForFlash() {
+        await this.flashAlert.waitForExist({
+            timeout: 10000,
+            timeoutMsg: "Flash message did not appear in time",
+        });
     }
 }
 

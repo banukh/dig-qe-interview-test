@@ -5,12 +5,16 @@ import { browser } from "@wdio/globals";
  * that is shared across all page objects
  */
 export default class Page {
+  /**
+   * get paths:
+   * maps human-friendly names to actual page URLs for navigation
+   */
   get paths() {
     return {
       "Basic Auth": "basic_auth",
       Checkboxes: "checkboxes",
       Dropdown: "dropdown",
-      inputs: "inputs",
+      Inputs: "inputs",
 
       "A/B Testing": "abtest",
       "Add/Remove Elements": "add_remove_elements/",
@@ -55,12 +59,70 @@ export default class Page {
     };
   }
 
+  /**
+   * get headings:
+   * maps human-friendly names to expected page headings for validation
+   */
+  get headings() {
+    return {
+      "A/B Testing": ["A/B Test Control", "A/B Test Variation 1"],
+      "Add/Remove Elements": "Add/Remove Elements",
+      "Basic Auth": "Basic Auth",
+      "Broken Images": "Broken Images",
+      "Challenging DOM": "Challenging DOM",
+      Checkboxes: "Checkboxes",
+      "Context Menu": "Context Menu",
+      "Digest Authentication": "Digest Auth",
+      "Disappearing Elements": "Disappearing Elements",
+      "Drag and Drop": "Drag and Drop",
+      Dropdown: "Dropdown List",
+      "Dynamic Content": "Dynamic Content",
+      "Dynamic Controls": "Dynamic Controls",
+      "Dynamic Loading": "Dynamically Loaded Page Elements",
+      "Entry Ad": "Entry Ad",
+      "Exit Intent": "Exit Intent",
+      "File Download": "File Downloader",
+      "File Upload": "File Uploader",
+      "Floating Menu": "Floating Menu",
+      "Forgot Password": "Forgot Password",
+      "Form Authentication": "Login Page",
+      Frames: "Frames",
+      Geolocation: "Geolocation",
+      "Horizontal Slider": "Horizontal Slider",
+      Hovers: "Hovers",
+      "Infinite Scroll": "Infinite Scroll",
+      Inputs: "Inputs",
+      "JQuery UI Menus": "JQueryUI - Menu",
+      "JavaScript Alerts": "JavaScript Alerts",
+      "JavaScript onload event error": "JavaScript Error",
+      "Key Presses": "Key Presses",
+      "Large & Deep DOM": "Large & Deep DOM",
+      "Multiple Windows": "Opening a new window",
+      "Nested Frames": "Nested Frames",
+      "Notification Messages": "Notification Message",
+      "Redirect Link": "Redirection",
+      "Secure File Download": "Secure File Downloader",
+      "Shadow DOM": "Simple Template",
+      "Shifting Content": "Shifting Content",
+      "Slow Resources": "Slow Resources",
+      "Sortable Data Tables": "Data Tables",
+      "Status Codes": "Status Codes",
+      Typos: "Typos",
+      "WYSIWYG Editor": "An iFrame containing the TinyMCE WYSIWYG Editor",
+    };
+  }
+
   get base() {
     return `https://the-internet.herokuapp.com`;
   }
 
   async click(name) {
-    const anchor = await $(`a[href="/${this.paths[name]}"]`);
+    const pathKey = Object.keys(this.paths).find(
+      (k) => k.toLowerCase() === name.toLowerCase()
+    );
+    if (!pathKey) throw new Error(`No path mapping found for ${name}`);
+    const href = this.paths[pathKey];
+    const anchor = await $(`a[href="/${href}"]`);
     await anchor.click();
   }
 
