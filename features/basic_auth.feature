@@ -1,11 +1,11 @@
 Feature: The Internet Guinea Pig Website
 
   @BASIC_AUTH
-  Scenario Outline: As a user, I can log into the secure area
-    Given I use basic auth to login with <username> and <password>
-    Then I should see a paragraph saying <message>
+  Scenario: Successful basic auth
+    Given I use basic auth to login with "admin" and "admin"
+    Then I should see a paragraph saying "Congratulations! You must have the proper credentials."
 
-    Examples:
-      | username | password | message                                                |
-      | admin    | admin    | Congratulations! You must have the proper credentials. |
-      | foo      | bar      | not authorized                                         |
+  @BASIC_AUTH
+  Scenario: Failed basic auth
+    When I send invalid basic auth with "foo" and "bar"
+    Then I should get a 401 unauthorized response
